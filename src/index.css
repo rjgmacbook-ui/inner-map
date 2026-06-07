@@ -1,0 +1,249 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-base:       #F5F0E8;
+  --bg-surface:    #EDE7D9;
+  --bg-deep:       #2C2420;
+  --text-primary:  #2C2420;
+  --text-soft:     #8A7968;
+  --accent-amber:  #C4863A;
+  --accent-sage:   #7A9E7E;
+  --accent-clay:   #B5735A;
+  --accent-mist:   #8BADB5;
+  --border-subtle: #D9D0C0;
+}
+
+/* ── Base Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+
+body {
+  background: var(--bg-base);
+  color: var(--text-primary);
+  font-family: 'DM Sans', system-ui, sans-serif;
+  min-height: 100svh;
+  overflow-x: hidden;
+}
+
+#root {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.app-shell {
+  width: 100%;
+  max-width: 420px;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background: var(--bg-base);
+  box-shadow: inset 0 0 0 1px var(--border-subtle), 0 0 60px rgba(44,36,32,0.06);
+}
+
+/* ── Typography ── */
+.font-display { font-family: 'Cormorant Garamond', Georgia, serif; }
+.font-mono    { font-family: 'JetBrains Mono', monospace; }
+
+/* ── Keyframes ── */
+
+/* Breathing ring: 12s total cycle (4s in + 2s hold + 6s out) */
+@keyframes breathe-scale {
+  0%   { transform: scale(1);    }
+  33%  { transform: scale(1.35); }
+  50%  { transform: scale(1.35); }
+  100% { transform: scale(1);    }
+}
+
+@keyframes breathe-color {
+  0%   { border-color: var(--accent-mist);  box-shadow: 0 0 20px rgba(139,173,181,0.3); }
+  33%  { border-color: var(--accent-amber); box-shadow: 0 0 40px rgba(196,134,58,0.4);  }
+  50%  { border-color: var(--accent-amber); box-shadow: 0 0 40px rgba(196,134,58,0.4);  }
+  100% { border-color: var(--accent-mist);  box-shadow: 0 0 20px rgba(139,173,181,0.3); }
+}
+
+@keyframes breathe-text {
+  0%   { opacity: 1; }
+  28%  { opacity: 0; }
+  33%  { opacity: 1; }
+  47%  { opacity: 0; }
+  50%  { opacity: 1; }
+  97%  { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1);    box-shadow: 0 0 0 0 rgba(181,115,90,0.4); }
+  50%       { transform: scale(1.05); box-shadow: 0 0 0 12px rgba(181,115,90,0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0);   }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(24px); }
+  to   { opacity: 1; transform: translateX(0);    }
+}
+
+/* ── Utility classes ── */
+.animate-fade-in      { animation: fadeIn 0.4s ease-out both; }
+.animate-slide-right  { animation: slideInRight 0.28s ease-out both; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ── Input base ── */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 16px;
+  width: 100%;
+  background: var(--bg-base);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  padding: 12px 16px;
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+input:focus, textarea:focus {
+  border-color: var(--accent-amber);
+  box-shadow: 0 0 0 3px rgba(196,134,58,0.15);
+}
+
+/* ── Range slider ── */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  background: var(--border-subtle);
+  border-radius: 3px;
+  outline: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--accent-amber);
+  box-shadow: 0 2px 6px rgba(196,134,58,0.4);
+  cursor: pointer;
+}
+
+/* ── Button base ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px 24px;
+  border-radius: 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.15s, transform 0.1s;
+  text-decoration: none;
+}
+.btn:active { transform: scale(0.97); }
+
+.btn-primary {
+  background: var(--accent-amber);
+  color: #fff;
+}
+.btn-primary:hover { opacity: 0.9; }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-soft);
+  border: 1px solid var(--border-subtle);
+}
+.btn-ghost:hover { background: var(--bg-surface); }
+
+.btn-full { width: 100%; }
+
+/* ── Card base ── */
+.card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  padding: 16px;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-subtle); border-radius: 2px; }
+
+/* ── Focus rings (keyboard only, not mouse) ── */
+:focus { outline: none; }
+:focus-visible {
+  outline: 2px solid var(--accent-amber);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+button:focus-visible, a:focus-visible {
+  outline: 2px solid var(--accent-amber);
+  outline-offset: 3px;
+}
+input:focus-visible, textarea:focus-visible, select:focus-visible {
+  outline: none;
+  border-color: var(--accent-amber) !important;
+  box-shadow: 0 0 0 3px rgba(196,134,58,0.15) !important;
+}
+
+/* ── Skeleton loader ── */
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position:  400px 0; }
+}
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--bg-surface) 25%,
+    var(--border-subtle) 50%,
+    var(--bg-surface) 75%
+  );
+  background-size: 400px 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+  border-radius: 8px;
+}
+
+/* ── Touch target minimum (nav + primary buttons only) ── */
+nav button { min-height: 44px; }
+.btn { min-height: 44px; }
+
+/* ── Prevent iOS font size inflation ── */
+@media screen and (max-width: 420px) {
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  input, textarea, select { font-size: 16px !important; } /* prevent zoom on focus */
+}
+
+/* ── Safe area insets (notch/home bar) ── */
+.app-shell {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+nav {
+  padding-bottom: calc(14px + env(safe-area-inset-bottom, 0px)) !important;
+}
