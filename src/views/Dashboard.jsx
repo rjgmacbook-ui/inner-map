@@ -27,7 +27,7 @@ const BUCKET_CARDS = [
 ]
 
 export default function Dashboard() {
-  const { user, navigate, triggersHook, chargesHook, reactionsHook, toolkitHook, encountersHook } = useApp()
+  const { user, navigate, signOut, triggersHook, chargesHook, reactionsHook, toolkitHook, encountersHook } = useApp()
   const [displayName, setDisplayName] = useState('')
 
   useEffect(() => {
@@ -64,20 +64,43 @@ export default function Dashboard() {
 
       {/* Header */}
       <div style={{ padding: '32px 24px 24px' }}>
-        <p style={{
-          fontFamily: '"DM Sans", sans-serif', fontSize: '12px',
-          color: 'var(--text-soft)', letterSpacing: '0.04em',
-          margin: '0 0 6px',
-        }}>
-          {todayLabel()}
-        </p>
-        <h1 style={{
-          fontFamily: '"Cormorant Garamond", Georgia, serif',
-          fontSize: '34px', fontWeight: '400', fontStyle: 'italic',
-          color: 'var(--text-primary)', margin: 0, lineHeight: 1.15,
-        }}>
-          {greeting()}{displayName ? `, ${displayName}` : '.'}
-        </h1>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+          <div>
+            <p style={{
+              fontFamily: '"DM Sans", sans-serif', fontSize: '12px',
+              color: 'var(--text-soft)', letterSpacing: '0.04em',
+              margin: '0 0 6px',
+            }}>
+              {todayLabel()}
+            </p>
+            <h1 style={{
+              fontFamily: '"Cormorant Garamond", Georgia, serif',
+              fontSize: '34px', fontWeight: '400', fontStyle: 'italic',
+              color: 'var(--text-primary)', margin: 0, lineHeight: 1.15,
+            }}>
+              {greeting()}{displayName ? `, ${displayName}` : '.'}
+            </h1>
+          </div>
+          <button
+            onClick={signOut}
+            title="Sign out"
+            aria-label="Sign out"
+            style={{
+              background: 'none', border: 'none', cursor: 'pointer',
+              padding: '4px', color: 'var(--text-soft)',
+              opacity: 0.5, transition: 'opacity 0.15s',
+              marginTop: '2px', flexShrink: 0,
+            }}
+            onMouseEnter={e => e.currentTarget.style.opacity = '1'}
+            onMouseLeave={e => e.currentTarget.style.opacity = '0.5'}
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/>
+              <polyline points="16 17 21 12 16 7"/>
+              <line x1="21" y1="12" x2="9" y2="12"/>
+            </svg>
+          </button>
+        </div>
         <div style={{ width: '32px', height: '1.5px', background: 'var(--accent-amber)', borderRadius: '1px', marginTop: '14px' }} />
       </div>
 
@@ -188,16 +211,6 @@ export default function Dashboard() {
         )}
       </div>
 
-      {/* Log CTA */}
-      <div style={{ padding: '8px 24px 0' }}>
-        <button
-          onClick={() => navigate('log')}
-          className="btn btn-primary btn-full"
-          style={{ fontSize: '15px', letterSpacing: '0.02em', padding: '15px' }}
-        >
-          log an encounter
-        </button>
-      </div>
     </div>
   )
 }
