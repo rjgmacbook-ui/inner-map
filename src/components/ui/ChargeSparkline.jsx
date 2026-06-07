@@ -1,9 +1,14 @@
 export default function ChargeSparkline({ encounters = [], height = 60 }) {
   const W = 300
 
+  function avgIntensity(e) {
+    const vals = Object.values(e.charge_intensities || {})
+    return vals.length ? vals.reduce((a, b) => a + b, 0) / vals.length : null
+  }
+
   // Filter to encounters with charge data, last 30, oldest first
   const pts = encounters
-    .filter(e => e.charge_intensity != null)
+    .filter(e => avgIntensity(e) != null)
     .slice(-30)
 
   if (pts.length < 3) return null
@@ -17,7 +22,7 @@ export default function ChargeSparkline({ encounters = [], height = 60 }) {
   const toY = v => PAD_Y + innerH - ((v - 1) / 9) * innerH
   const toX = i => PAD_X + (i / (pts.length - 1)) * innerW
 
-  const points = pts.map((e, i) => ({ x: toX(i), y: toY(e.charge_intensity) }))
+  const points = pts.map((e, i) => ({ x: toX(i), y: toY(avgIntensity(e)) }))
 
   // Build smooth bezier path
   function buildPath(pts) {

@@ -28,8 +28,8 @@ export default function LogEncounter() {
   const [draft, setDraft]          = useState({
     event_description: '',
     trigger_id:        null,
-    charge_ids:        [],
-    charge_intensity:  null,
+    charge_ids:          [],
+    charge_intensities:  {},
     reaction_ids:      [],
     pause_completed:   false,
     pause_duration_s:  0,

@@ -55,7 +55,8 @@ export default function Dashboard() {
   // Last 7 days encounters with charge data for sparkline
   const weekAgo = Date.now() - 7 * 86400 * 1000
   const weekEncounters = encounters.filter(e =>
-    new Date(e.created_at).getTime() >= weekAgo && e.charge_intensity != null
+    new Date(e.created_at).getTime() >= weekAgo &&
+    e.charge_intensities && Object.keys(e.charge_intensities).length > 0
   )
   const showSparkline = weekEncounters.length >= 3
 

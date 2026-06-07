@@ -17,9 +17,13 @@ export default function EncounterCard({ encounter, onClick }) {
 
   const leftBorder = encounter.resolved ? 'var(--accent-sage)' : 'var(--accent-amber)'
 
-  // Resolve first charge name from array
-  const firstCharge = (encounter.charge_ids || []).length > 0
-    ? chargesHook.charges.find(c => c.id === encounter.charge_ids[0])
+  // Resolve first charge name and its specific intensity
+  const firstChargeId = (encounter.charge_ids || [])[0]
+  const firstCharge = firstChargeId
+    ? chargesHook.charges.find(c => c.id === firstChargeId)
+    : null
+  const firstIntensity = firstChargeId
+    ? (encounter.charge_intensities || {})[firstChargeId] ?? null
     : null
   const extraCharges = (encounter.charge_ids || []).length - 1
 
@@ -92,9 +96,9 @@ export default function EncounterCard({ encounter, onClick }) {
           )}
 
           {/* First charge orb + name + overflow count */}
-          {firstCharge && encounter.charge_intensity && (
+          {firstCharge && firstIntensity && (
             <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-              <ChargeOrb intensity={encounter.charge_intensity} size="sm" />
+              <ChargeOrb intensity={firstIntensity} size="sm" />
               <span style={{
                 fontFamily: '"DM Sans", sans-serif',
                 fontSize: '11px', color: 'var(--accent-mist)',

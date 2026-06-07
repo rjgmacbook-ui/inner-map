@@ -25,7 +25,7 @@ export default function BreathingRing() {
         }
       `}</style>
 
-      <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '44px' }}>
         {/* The ring itself */}
         <div style={{
           width: '200px',

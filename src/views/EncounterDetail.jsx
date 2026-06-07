@@ -148,14 +148,15 @@ export default function EncounterDetail() {
                 {encounter.charge_ids.map(cid => {
                   const charge = chargesHook.charges.find(c => c.id === cid)
                   if (!charge) return null
+                  const intensity = (encounter.charge_intensities || {})[cid]
                   return (
                     <div key={cid} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <ChargeOrb intensity={encounter.charge_intensity || 5} size="sm" />
+                      <ChargeOrb intensity={intensity || 5} size="sm" />
                       <span style={{ fontFamily: '"DM Sans", sans-serif', fontSize: '15px', color: 'var(--text-primary)' }}>
                         {charge.name}
-                        {encounter.charge_intensity && (
+                        {intensity && (
                           <span style={{ color: 'var(--text-soft)', fontStyle: 'italic' }}>
-                            {' '}· intensity {encounter.charge_intensity}
+                            {' '}· intensity {intensity}
                           </span>
                         )}
                       </span>
