@@ -58,9 +58,14 @@ export default function LogEncounter() {
     navigate('dashboard')
   }
 
-  // Step 7 onNext triggers the actual save
-  async function handleStep7Next() {
-    await handleComplete()
+  // Step 7 passes next_action value directly to avoid React batching issue
+  async function handleStep7Next(nextAction) {
+    try {
+      await encountersHook.add({ ...draft, next_action: nextAction })
+    } catch (err) {
+      console.error('Failed to save encounter:', err)
+    }
+    navigate('dashboard')
   }
 
   const stepProps = { draft, setDraft, onNext: goNext, onBack: goBack }

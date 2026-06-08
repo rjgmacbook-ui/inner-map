@@ -6,8 +6,7 @@ export default function Step7Action({ draft, setDraft, onNext }) {
 
   async function handleComplete() {
     setSaving(true)
-    setDraft(d => ({ ...d, next_action: value.trim() }))
-    await onNext()
+    await onNext(value.trim())
     setSaving(false)
   }
 

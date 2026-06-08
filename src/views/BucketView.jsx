@@ -63,13 +63,13 @@ export default function BucketView() {
   const bucket = BUCKETS[activeBucket] || BUCKETS.triggers
 
   const hookMap = {
-    triggers:  { items: triggersHook.triggers,   add: triggersHook.add,   remove: triggersHook.remove,   loading: triggersHook.loading  },
-    charges:   { items: chargesHook.charges,     add: chargesHook.add,    remove: chargesHook.remove,    loading: chargesHook.loading   },
-    reactions: { items: reactionsHook.reactions, add: reactionsHook.add,  remove: reactionsHook.remove,  loading: reactionsHook.loading },
-    toolkit:   { items: toolkitHook.items,       add: toolkitHook.add,    remove: toolkitHook.remove,    loading: toolkitHook.loading   },
+    triggers:  { items: triggersHook.triggers,   add: triggersHook.add,   remove: triggersHook.remove,   update: triggersHook.update,  loading: triggersHook.loading  },
+    charges:   { items: chargesHook.charges,     add: chargesHook.add,    remove: chargesHook.remove,    update: chargesHook.update,   loading: chargesHook.loading   },
+    reactions: { items: reactionsHook.reactions, add: reactionsHook.add,  remove: reactionsHook.remove,  update: reactionsHook.update, loading: reactionsHook.loading },
+    toolkit:   { items: toolkitHook.items,       add: toolkitHook.add,    remove: toolkitHook.remove,    update: toolkitHook.update,   loading: toolkitHook.loading   },
   }
 
-  const { items, add, remove, loading } = hookMap[activeBucket] || hookMap.triggers
+  const { items, add, remove, update, loading } = hookMap[activeBucket] || hookMap.triggers
 
   return (
     <div style={{
@@ -211,6 +211,7 @@ export default function BucketView() {
                   bucketType={activeBucket}
                   accentColor={bucket.color}
                   onDelete={remove}
+                  onUpdate={update}
                 />
               </div>
             ))}

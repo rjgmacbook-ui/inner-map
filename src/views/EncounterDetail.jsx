@@ -63,7 +63,6 @@ export default function EncounterDetail() {
   const [editingReflection, setEditingReflection] = useState(false)
   const [reflectionText, setReflectionText]       = useState('')
   const [savingReflection, setSavingReflection]   = useState(false)
-  const [savingResolved, setSavingResolved]        = useState(false)
 
   if (!encounter) {
     return (
@@ -81,12 +80,6 @@ export default function EncounterDetail() {
     await update(encounter.id, { reflection_note: reflectionText.trim() })
     setSavingReflection(false)
     setEditingReflection(false)
-  }
-
-  async function markResolved() {
-    setSavingResolved(true)
-    await update(encounter.id, { resolved: true })
-    setSavingResolved(false)
   }
 
   return (
@@ -278,26 +271,6 @@ export default function EncounterDetail() {
           )}
         </div>
 
-        {/* Resolve toggle */}
-        <div style={{ textAlign: 'center', paddingBottom: '8px' }}>
-          {encounter.resolved ? (
-            <p style={{
-              fontFamily: '"DM Sans", sans-serif', fontSize: '14px',
-              color: 'var(--accent-sage)',
-            }}>
-              ✓ resolved
-            </p>
-          ) : (
-            <button
-              onClick={markResolved}
-              disabled={savingResolved}
-              className="btn btn-ghost btn-full"
-              style={{ opacity: savingResolved ? 0.6 : 1, fontSize: '14px' }}
-            >
-              {savingResolved ? '...' : 'mark as resolved'}
-            </button>
-          )}
-        </div>
       </div>
     </div>
   )

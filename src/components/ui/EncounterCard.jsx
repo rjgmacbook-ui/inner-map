@@ -15,7 +15,7 @@ export default function EncounterCard({ encounter, onClick }) {
   const [hovered, setHovered] = useState(false)
   const { chargesHook, reactionsHook } = useApp()
 
-  const leftBorder = encounter.resolved ? 'var(--accent-sage)' : 'var(--accent-amber)'
+  const leftBorder = 'var(--accent-amber)'
 
   // Resolve first charge name and its specific intensity
   const firstChargeId = (encounter.charge_ids || [])[0]
@@ -55,11 +55,6 @@ export default function EncounterCard({ encounter, onClick }) {
         }}>
           {timeAgo(encounter.created_at)}
         </span>
-        {encounter.resolved && (
-          <span style={{ fontSize: '12px', color: 'var(--accent-sage)', fontFamily: '"DM Sans", sans-serif' }}>
-            ✓ resolved
-          </span>
-        )}
       </div>
 
       {/* Event description */}

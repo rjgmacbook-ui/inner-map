@@ -11,7 +11,7 @@ export default function Step1Event({ draft, setDraft, onNext }) {
   return (
     <div style={shell}>
       <div style={questionBlock}>
-        <h2 style={question}>What just happened?</h2>
+        <h2 style={question}>What is going on?</h2>
         <p style={support}>
           Describe the situation, conversation, task, or feeling that's present right now.
         </p>

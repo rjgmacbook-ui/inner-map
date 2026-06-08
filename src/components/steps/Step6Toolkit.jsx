@@ -19,8 +19,8 @@ export default function Step6Toolkit({ draft, setDraft, onNext, toolkitHook }) {
   return (
     <div style={shell}>
       <div style={questionBlock}>
-        <h2 style={question}>What did you reach for?</h2>
-        <p style={support}>A resource, practice, or quality you can bring to this.</p>
+        <h2 style={question}>What is a better way to handle this?</h2>
+        <p style={support}>A resource, practice, or quality you can bring to this moment.</p>
       </div>
 
       <div style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '8px' }}>
