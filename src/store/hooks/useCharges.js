@@ -17,10 +17,10 @@ export function useCharges(userId) {
 
   useEffect(() => { fetch() }, [fetch])
 
-  async function add({ name, typical_intensity }) {
+  async function add({ name, description }) {
     const { data, error } = await supabase
       .from('emotional_charges')
-      .insert({ user_id: userId, name, typical_intensity })
+      .insert({ user_id: userId, name, description: description || null })
       .select()
       .single()
     if (error) throw error

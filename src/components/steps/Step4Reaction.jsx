@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import InlineCreate from '../ui/InlineCreate'
+import SearchableMultiSelect from '../ui/SearchableMultiSelect'
 
 export default function Step4Reaction({ draft, setDraft, onNext, reactionsHook }) {
   const [selectedIds, setSelectedIds] = useState(draft.reaction_ids || [])
@@ -17,41 +17,21 @@ export default function Step4Reaction({ draft, setDraft, onNext, reactionsHook }
         <p style={support}>The automatic, habitual response that showed up.</p>
       </div>
 
-      <div style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-        {reactions.length === 0 && (
-          <p style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: '17px', fontStyle: 'italic', color: 'var(--text-soft)', textAlign: 'center', padding: '16px 0' }}>
-            No reactions added yet. Add one below.
+      <div style={{ flex: 1, overflowY: 'auto' }}>
+        <SearchableMultiSelect
+          items={reactions}
+          selectedIds={selectedIds}
+          onChange={setSelectedIds}
+          onCreateItem={name => add({ name })}
+          placeholder="search or add a reaction…"
+          accentColor="var(--accent-clay)"
+        />
+
+        {reactions.length === 0 && selectedIds.length === 0 && (
+          <p style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: '17px', fontStyle: 'italic', color: 'var(--text-soft)', padding: '16px 0' }}>
+            Type a reaction name to create your first one.
           </p>
         )}
-        {reactions.map(r => {
-          const isOn = selectedIds.includes(r.id)
-          return (
-            <button
-              key={r.id}
-              onClick={() => setSelectedIds(prev => isOn ? prev.filter(id => id !== r.id) : [...prev, r.id])}
-              style={{
-                width: '100%', textAlign: 'left', cursor: 'pointer',
-                background: isOn ? 'rgba(181,115,90,0.08)' : 'var(--bg-surface)',
-                border: '1px solid',
-                borderColor: isOn ? 'var(--accent-clay)' : 'var(--border-subtle)',
-                borderLeft: `3px solid ${isOn ? 'var(--accent-clay)' : 'var(--border-subtle)'}`,
-                borderRadius: '12px', padding: '13px 16px',
-                fontFamily: '"DM Sans", sans-serif', fontSize: '15px', fontWeight: '500',
-                color: 'var(--text-primary)',
-                transition: 'all 0.15s ease',
-              }}
-            >
-              {r.name}
-              {r.description && (
-                <span style={{ display: 'block', fontSize: '12px', color: 'var(--text-soft)', fontWeight: '400', marginTop: '3px' }}>
-                  {r.description}
-                </span>
-              )}
-            </button>
-          )
-        })}
-
-        <InlineCreate bucketType="reactions" onAdd={add} />
       </div>
 
       <div style={footer}>

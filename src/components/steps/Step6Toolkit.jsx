@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import InlineCreate from '../ui/InlineCreate'
+import SearchableMultiSelect from '../ui/SearchableMultiSelect'
 
 const CATEGORY_COLOR = {
   breathing: '#8BADB5', grounding: '#7A9E7E', somatic: '#C4863A',
@@ -16,6 +16,21 @@ export default function Step6Toolkit({ draft, setDraft, onNext, toolkitHook }) {
     onNext()
   }
 
+  function renderCategory(item) {
+    if (!item.category) return null
+    return (
+      <span style={{
+        fontSize: '10px', fontWeight: '500', letterSpacing: '0.05em',
+        textTransform: 'uppercase', color: '#fff',
+        background: CATEGORY_COLOR[item.category] || '#8A7968',
+        borderRadius: '20px', padding: '2px 8px',
+        whiteSpace: 'nowrap', flexShrink: 0,
+      }}>
+        {item.category}
+      </span>
+    )
+  }
+
   return (
     <div style={shell}>
       <div style={questionBlock}>
@@ -23,55 +38,22 @@ export default function Step6Toolkit({ draft, setDraft, onNext, toolkitHook }) {
         <p style={support}>A resource, practice, or quality you can bring to this moment.</p>
       </div>
 
-      <div style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-        {items.length === 0 && (
-          <p style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: '17px', fontStyle: 'italic', color: 'var(--text-soft)', textAlign: 'center', padding: '16px 0' }}>
-            No toolkit items yet. Add one below.
+      <div style={{ flex: 1, overflowY: 'auto' }}>
+        <SearchableMultiSelect
+          items={items}
+          selectedIds={selectedIds}
+          onChange={setSelectedIds}
+          onCreateItem={name => add({ name, category: 'other' })}
+          placeholder="search or add a toolkit item…"
+          accentColor="var(--accent-sage)"
+          renderMeta={renderCategory}
+        />
+
+        {items.length === 0 && selectedIds.length === 0 && (
+          <p style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: '17px', fontStyle: 'italic', color: 'var(--text-soft)', padding: '16px 0' }}>
+            Type a toolkit item to create your first one.
           </p>
         )}
-        {items.map(item => {
-          const isOn = selectedIds.includes(item.id)
-          return (
-          <button
-            key={item.id}
-            onClick={() => setSelectedIds(prev => isOn ? prev.filter(id => id !== item.id) : [...prev, item.id])}
-            style={{
-              width: '100%', textAlign: 'left', cursor: 'pointer',
-              background: isOn ? 'rgba(122,158,126,0.1)' : 'var(--bg-surface)',
-              border: '1px solid',
-              borderColor: isOn ? 'var(--accent-sage)' : 'var(--border-subtle)',
-              borderLeft: `3px solid ${isOn ? 'var(--accent-sage)' : 'var(--border-subtle)'}`,
-              borderRadius: '12px', padding: '13px 16px',
-              fontFamily: '"DM Sans", sans-serif', fontSize: '15px', fontWeight: '500',
-              color: 'var(--text-primary)',
-              transition: 'all 0.15s ease',
-              display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '8px',
-            }}
-          >
-            <span>
-              {item.name}
-              {item.description && (
-                <span style={{ display: 'block', fontSize: '12px', color: 'var(--text-soft)', fontWeight: '400', marginTop: '3px' }}>
-                  {item.description}
-                </span>
-              )}
-            </span>
-            {item.category && (
-              <span style={{
-                fontSize: '10px', fontWeight: '500', letterSpacing: '0.05em',
-                textTransform: 'uppercase', color: '#fff',
-                background: CATEGORY_COLOR[item.category] || '#8A7968',
-                borderRadius: '20px', padding: '2px 8px', whiteSpace: 'nowrap', flexShrink: 0,
-                marginTop: '2px',
-              }}>
-                {item.category}
-              </span>
-            )}
-          </button>
-          )
-        })}
-
-        <InlineCreate bucketType="toolkit" onAdd={add} />
       </div>
 
       <div style={footer}>

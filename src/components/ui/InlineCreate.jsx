@@ -33,8 +33,7 @@ export default function InlineCreate({ bucketType, onAdd }) {
     setError(''); setSubmitting(true)
     try {
       const payload = { name: name.trim() }
-      if (bucketType === 'charges')  payload.typical_intensity = intensity
-      if (bucketType === 'triggers' || bucketType === 'reactions') {
+      if (bucketType === 'charges' || bucketType === 'triggers' || bucketType === 'reactions') {
         if (description.trim()) payload.description = description.trim()
       }
       if (bucketType === 'toolkit') {
@@ -100,14 +99,6 @@ export default function InlineCreate({ bucketType, onAdd }) {
             />
           </div>
 
-          {/* Charges: intensity slider */}
-          {bucketType === 'charges' && (
-            <div>
-              <label style={{ ...labelStyle, marginBottom: '12px' }}>typical intensity</label>
-              <EmotionSlider value={intensity} onChange={setIntensity} />
-            </div>
-          )}
-
           {/* Toolkit: category select */}
           {bucketType === 'toolkit' && (
             <div>
@@ -133,8 +124,8 @@ export default function InlineCreate({ bucketType, onAdd }) {
             </div>
           )}
 
-          {/* Description for triggers, reactions, toolkit */}
-          {(bucketType === 'triggers' || bucketType === 'reactions' || bucketType === 'toolkit') && (
+          {/* Description for triggers, charges, reactions, toolkit */}
+          {(bucketType === 'triggers' || bucketType === 'charges' || bucketType === 'reactions' || bucketType === 'toolkit') && (
             <div>
               <label style={labelStyle}>description <span style={{ opacity: 0.5 }}>(optional)</span></label>
               <textarea

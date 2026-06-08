@@ -1,6 +1,4 @@
 import { useState } from 'react'
-import ChargeOrb from './ChargeOrb'
-import EmotionSlider from './EmotionSlider'
 
 const CATEGORY_OPTIONS = ['breathing', 'grounding', 'somatic', 'reframe', 'compassion', 'curiosity', 'courage', 'other']
 
@@ -18,7 +16,6 @@ export default function BucketCard({ item, bucketType, accentColor, onDelete, on
   // Edit form state — pre-filled from item
   const [editName, setEditName]           = useState(item.name)
   const [editDesc, setEditDesc]           = useState(item.description || '')
-  const [editIntensity, setEditIntensity] = useState(item.typical_intensity || 5)
   const [editCategory, setEditCategory]   = useState(item.category || 'other')
   const [saving, setSaving]               = useState(false)
 
@@ -35,7 +32,6 @@ export default function BucketCard({ item, bucketType, accentColor, onDelete, on
   function startEdit() {
     setEditName(item.name)
     setEditDesc(item.description || '')
-    setEditIntensity(item.typical_intensity || 5)
     setEditCategory(item.category || 'other')
     setEditing(true)
   }
@@ -45,7 +41,7 @@ export default function BucketCard({ item, bucketType, accentColor, onDelete, on
     setSaving(true)
     const patch = { name: editName.trim() }
     if (bucketType === 'triggers' || bucketType === 'reactions') patch.description = editDesc.trim() || null
-    if (bucketType === 'charges') patch.typical_intensity = editIntensity
+    if (bucketType === 'charges') patch.description = editDesc.trim() || null
     if (bucketType === 'toolkit') { patch.description = editDesc.trim() || null; patch.category = editCategory }
     await onUpdate(item.id, patch)
     setSaving(false)
@@ -73,7 +69,7 @@ export default function BucketCard({ item, bucketType, accentColor, onDelete, on
           style={inputStyle}
         />
 
-        {(bucketType === 'triggers' || bucketType === 'reactions') && (
+        {(bucketType === 'triggers' || bucketType === 'reactions' || bucketType === 'charges') && (
           <textarea
             value={editDesc}
             onChange={e => setEditDesc(e.target.value)}
@@ -81,13 +77,6 @@ export default function BucketCard({ item, bucketType, accentColor, onDelete, on
             rows={2}
             style={{ ...inputStyle, resize: 'none', lineHeight: '1.5' }}
           />
-        )}
-
-        {bucketType === 'charges' && (
-          <div>
-            <p style={sliderLabel}>typical intensity</p>
-            <EmotionSlider value={editIntensity} onChange={setEditIntensity} />
-          </div>
         )}
 
         {bucketType === 'toolkit' && (
@@ -208,10 +197,6 @@ export default function BucketCard({ item, bucketType, accentColor, onDelete, on
         )}
       </div>
 
-      {/* Charge intensity orb */}
-      {bucketType === 'charges' && item.typical_intensity && (
-        <ChargeOrb intensity={item.typical_intensity} size="sm" />
-      )}
 
       {/* Action buttons — edit + delete */}
       {(hovered || confirmDelete) && (
@@ -276,9 +261,3 @@ const inputStyle = {
   transition: 'border-color 0.15s',
 }
 
-const sliderLabel = {
-  fontFamily: '"DM Sans", sans-serif',
-  fontSize: '11px', fontWeight: '500',
-  letterSpacing: '0.06em', textTransform: 'uppercase',
-  color: 'var(--text-soft)', margin: '0 0 10px',
-}
