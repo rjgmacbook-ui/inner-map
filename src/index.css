@@ -123,7 +123,6 @@ textarea {
 
 input:focus, textarea:focus {
   border-color: var(--accent-amber);
-  box-shadow: 0 0 0 3px rgba(196,134,58,0.15);
 }
 
 /* ── Range slider ── */
@@ -191,9 +190,22 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 /* ── Scrollbar ── */
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--border-subtle); border-radius: 2px; }
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-subtle) transparent;
+}
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track {
+  background: transparent;
+  margin: 8px 0; /* top/bottom gutter keeps thumb away from rounded corners */
+  border-radius: 100px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-subtle);
+  border-radius: 100px;
+  border: 2px solid transparent; /* side gutters */
+  background-clip: content-box;
+}
 
 /* ── Focus rings (keyboard only, not mouse) ── */
 :focus { outline: none; }
@@ -209,7 +221,6 @@ button:focus-visible, a:focus-visible {
 input:focus-visible, textarea:focus-visible, select:focus-visible {
   outline: none;
   border-color: var(--accent-amber) !important;
-  box-shadow: 0 0 0 3px rgba(196,134,58,0.15) !important;
 }
 
 /* ── Skeleton loader ── */

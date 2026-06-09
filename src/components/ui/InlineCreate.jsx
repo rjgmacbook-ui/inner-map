@@ -37,7 +37,6 @@ export default function InlineCreate({ bucketType, onAdd }) {
         if (description.trim()) payload.description = description.trim()
       }
       if (bucketType === 'toolkit') {
-        payload.category = category
         if (description.trim()) payload.description = description.trim()
       }
       await onAdd(payload)
@@ -98,31 +97,6 @@ export default function InlineCreate({ bucketType, onAdd }) {
               style={inputStyle}
             />
           </div>
-
-          {/* Toolkit: category select */}
-          {bucketType === 'toolkit' && (
-            <div>
-              <label style={labelStyle}>category</label>
-              <select
-                value={category}
-                onChange={e => setCategory(e.target.value)}
-                style={{
-                  ...inputStyle,
-                  appearance: 'none',
-                  WebkitAppearance: 'none',
-                  backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238A7968' strokeWidth='1.5' fill='none' strokeLinecap='round'/%3E%3C/svg%3E")`,
-                  backgroundRepeat: 'no-repeat',
-                  backgroundPosition: 'right 14px center',
-                  paddingRight: '36px',
-                  cursor: 'pointer',
-                }}
-              >
-                {CATEGORIES.map(c => (
-                  <option key={c} value={c}>{c}</option>
-                ))}
-              </select>
-            </div>
-          )}
 
           {/* Description for triggers, charges, reactions, toolkit */}
           {(bucketType === 'triggers' || bucketType === 'charges' || bucketType === 'reactions' || bucketType === 'toolkit') && (

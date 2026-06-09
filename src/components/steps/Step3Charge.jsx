@@ -33,21 +33,23 @@ export default function Step3Charge({ draft, setDraft, onNext, chargesHook }) {
   return (
     <div style={shell}>
       <div style={questionBlock}>
-        <h2 style={question}>What's the emotional charge?</h2>
+        <h2 style={question}>Name the feelings involved in the disruption</h2>
         <p style={support}>Select one or more. Set the intensity for each.</p>
       </div>
 
-      <div style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-        <SearchableMultiSelect
-          items={charges}
-          selectedIds={selectedIds}
-          onChange={handleChange}
-          onCreateItem={name => add({ name })}
-          placeholder="search or create a charge…"
-          accentColor="var(--accent-mist)"
-          showPills={false}
-        />
+      {/* Search box sits outside the scroll area so the absolute dropdown isn't clipped */}
+      <SearchableMultiSelect
+        items={charges}
+        selectedIds={selectedIds}
+        onChange={handleChange}
+        onCreateItem={name => add({ name })}
+        placeholder="search or create a charge…"
+        accentColor="var(--accent-mist)"
+        showPills={false}
+      />
 
+      {/* Only the intensity slider rows scroll */}
+      <div style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '10px', paddingRight: '4px', borderRadius: '12px' }}>
         {/* Selected charges with intensity sliders */}
         {selectedCharges.length > 0 && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>

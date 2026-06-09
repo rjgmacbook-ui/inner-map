@@ -13,11 +13,11 @@ export default function Step4Reaction({ draft, setDraft, onNext, reactionsHook }
   return (
     <div style={shell}>
       <div style={questionBlock}>
-        <h2 style={question}>What was your default reaction?</h2>
+        <h2 style={question}>Which default pattern are you most likely to carry out?</h2>
         <p style={support}>The automatic, habitual response that showed up.</p>
       </div>
 
-      <div style={{ flex: 1, overflowY: 'auto' }}>
+      <div style={{ flex: 1 }}>
         <SearchableMultiSelect
           items={reactions}
           selectedIds={selectedIds}

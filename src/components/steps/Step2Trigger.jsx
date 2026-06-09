@@ -13,11 +13,11 @@ export default function Step2Trigger({ draft, setDraft, onNext, triggersHook }) 
   return (
     <div style={shell}>
       <div style={questionBlock}>
-        <h2 style={question}>Which trigger does this connect to?</h2>
+        <h2 style={question}>Name the trigger</h2>
         <p style={support}>A recurring situation, relationship, or pattern.</p>
       </div>
 
-      <div style={{ flex: 1, overflowY: 'auto' }}>
+      <div style={{ flex: 1 }}>
         <SearchableMultiSelect
           items={triggers}
           selectedIds={selectedIds}

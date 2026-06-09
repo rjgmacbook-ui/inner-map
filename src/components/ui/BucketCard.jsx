@@ -42,7 +42,7 @@ export default function BucketCard({ item, bucketType, accentColor, onDelete, on
     const patch = { name: editName.trim() }
     if (bucketType === 'triggers' || bucketType === 'reactions') patch.description = editDesc.trim() || null
     if (bucketType === 'charges') patch.description = editDesc.trim() || null
-    if (bucketType === 'toolkit') { patch.description = editDesc.trim() || null; patch.category = editCategory }
+    if (bucketType === 'toolkit') { patch.description = editDesc.trim() || null }
     await onUpdate(item.id, patch)
     setSaving(false)
     setEditing(false)
@@ -80,24 +80,13 @@ export default function BucketCard({ item, bucketType, accentColor, onDelete, on
         )}
 
         {bucketType === 'toolkit' && (
-          <>
-            <select
-              value={editCategory}
-              onChange={e => setEditCategory(e.target.value)}
-              style={{ ...inputStyle, cursor: 'pointer' }}
-            >
-              {CATEGORY_OPTIONS.map(c => (
-                <option key={c} value={c}>{c}</option>
-              ))}
-            </select>
-            <textarea
-              value={editDesc}
-              onChange={e => setEditDesc(e.target.value)}
-              placeholder="description (optional)"
-              rows={2}
-              style={{ ...inputStyle, resize: 'none', lineHeight: '1.5' }}
-            />
-          </>
+          <textarea
+            value={editDesc}
+            onChange={e => setEditDesc(e.target.value)}
+            placeholder="description (optional)"
+            rows={2}
+            style={{ ...inputStyle, resize: 'none', lineHeight: '1.5' }}
+          />
         )}
 
         <div style={{ display: 'flex', gap: '8px' }}>
@@ -172,17 +161,6 @@ export default function BucketCard({ item, bucketType, accentColor, onDelete, on
             {item.name}
           </span>
 
-          {bucketType === 'toolkit' && item.category && (
-            <span style={{
-              fontFamily: '"DM Sans", sans-serif',
-              fontSize: '10px', fontWeight: '500',
-              letterSpacing: '0.05em', textTransform: 'uppercase',
-              color: '#fff', background: 'var(--accent-sage)',
-              borderRadius: '20px', padding: '2px 8px',
-            }}>
-              {CATEGORY_LABELS[item.category] || item.category}
-            </span>
-          )}
         </div>
 
         {item.description && (

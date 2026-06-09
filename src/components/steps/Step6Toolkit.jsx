@@ -38,7 +38,7 @@ export default function Step6Toolkit({ draft, setDraft, onNext, toolkitHook }) {
         <p style={support}>A resource, practice, or quality you can bring to this moment.</p>
       </div>
 
-      <div style={{ flex: 1, overflowY: 'auto' }}>
+      <div style={{ flex: 1 }}>
         <SearchableMultiSelect
           items={items}
           selectedIds={selectedIds}

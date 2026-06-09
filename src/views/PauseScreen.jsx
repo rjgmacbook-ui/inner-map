@@ -1,18 +1,8 @@
 import { useState, useEffect } from 'react'
 import BreathingRing from '../components/ui/BreathingRing'
 
-const PROMPTS = [
-  'Name 5 things you can see right now.',
-  'Feel your feet on the ground.',
-  'Place a hand on your chest. Feel your heartbeat.',
-  'Notice 3 sounds around you.',
-  'Take in the temperature of the air.',
-]
-
 export default function PauseScreen({ onComplete, onSkip, onBack }) {
-  const [elapsed, setElapsed]       = useState(0)
-  const [promptIdx, setPromptIdx]   = useState(0)
-  const [promptVisible, setVisible] = useState(true)
+  const [elapsed, setElapsed]           = useState(0)
   const [showContinue, setShowContinue] = useState(false)
 
   // Main second counter
@@ -25,18 +15,6 @@ export default function PauseScreen({ onComplete, onSkip, onBack }) {
   useEffect(() => {
     if (elapsed >= 15 && !showContinue) setShowContinue(true)
   }, [elapsed, showContinue])
-
-  // Rotate grounding prompt every 12s (matches breath cycle)
-  useEffect(() => {
-    const t = setInterval(() => {
-      setVisible(false)
-      setTimeout(() => {
-        setPromptIdx(i => (i + 1) % PROMPTS.length)
-        setVisible(true)
-      }, 600)
-    }, 12000)
-    return () => clearInterval(t)
-  }, [])
 
   const mm = String(Math.floor(elapsed / 60)).padStart(2, '0')
   const ss = String(elapsed % 60).padStart(2, '0')
@@ -109,23 +87,6 @@ export default function PauseScreen({ onComplete, onSkip, onBack }) {
         margin: 0,
       }}>
         follow the ring
-      </p>
-
-      {/* Grounding prompt */}
-      <p style={{
-        fontFamily: '"Cormorant Garamond", Georgia, serif',
-        fontSize: '20px',
-        fontStyle: 'italic',
-        fontWeight: '400',
-        color: 'rgba(245,240,232,0.75)',
-        textAlign: 'center',
-        maxWidth: '280px',
-        lineHeight: '1.5',
-        margin: 0,
-        opacity: promptVisible ? 1 : 0,
-        transition: 'opacity 0.6s ease',
-      }}>
-        {PROMPTS[promptIdx]}
       </p>
 
       {/* Timer */}
